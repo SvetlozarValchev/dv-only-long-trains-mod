@@ -21,8 +21,13 @@ namespace OnlyLongTrainsMod
     [HarmonyPatch(typeof(StationsJobLicenseUpdater), "SetStationRulesetLimits")]
     class StationsJobLicenseUpdater_SetStationRulesetLimits_Patch
     {
-        static void Postfix(StationProceduralJobsRuleset[] ___stationsRuleset)
+        static void Postfix(StationProceduralJobsRuleset[] ___stationsRuleset, bool maxCarsLicenseAcquired)
         {
+            if (!maxCarsLicenseAcquired)
+            {
+                return;
+            }
+
             for (int index = 0; index < ___stationsRuleset.Length; ++index)
             {
                 ___stationsRuleset[index].minNumberOfCarsPerJob = 6;
